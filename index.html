@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;"></canvas><br>
+
+<button onclick="Lijevo()">Pomjeri se lijevo</button>
+<button onclick="Desno()" style="background-color:green">Pomjeri se desno</button>
+<button onclick="Gore()">Pomjeri se gore</button>
+<button onclick="Dole()">Pomjeri se dole</button>
+
+<img id="OIP" src="OIP.WEBP" width="80" height="80" style="display:none;">
+
+<script>
+
+const img = document.getElementById("OIP");
+const c = document.getElementById("myCanvas");
+const ctx = c.getContext("2d");
+
+let centarX = 250;
+let centarY = 50;
+
+// ---- Crtanje mreže ----
+function nacrtajMrezu() {
+  for (let i = 100; i < 500; i += 100) {
+    ctx.moveTo(i, 0);
+    ctx.lineTo(i, 500);
+    ctx.moveTo(0, i);
+    ctx.lineTo(500, i);
+  }
+  ctx.stroke();
+}
+
+// ---- Osvježavanje platna i crtanje lika ----
+function iscrtaj() {
+  ctx.clearRect(0, 0, 500, 500);
+  nacrtajMrezu();
+  ctx.drawImage(img, centarX - 25, centarY - 25, 45, 45);
+}
+
+// ---- POMJERANJE LIJEVO (2 polja / 200 px) ----
+function Lijevo() {
+  if (centarX > 150) {
+    centarX -= 200;
+  } else if (centarX === 150) {
+    centarX = 450;
+  } else if (centarX === 50) {
+    centarX = 350;
+  }
+  iscrtaj();
+}
+
+// ---- DESNO (ostaje kao prije) ----
+function Desno() {
+  centarX = centarX !== 450 ? centarX + 100 : 50;
+  iscrtaj();
+}
+
+// ---- GORE (ostaje kao prije) ----
+function Gore() {
+  centarY = centarY !== 50 ? centarY - 100 : 450;
+  iscrtaj();
+}
+
+// ---- DOLE (ostaje kao prije) ----
+function Dole() {
+  centarY = centarY !== 450 ? centarY + 100 : 50;
+  iscrtaj();
+}
+
+img.onload = iscrtaj;
+
+</script>
+
+</body>
+</html>
